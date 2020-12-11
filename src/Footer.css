@@ -1,0 +1,12 @@
+.mainFooter{
+ color: black;
+ background-color: #54d8737c;
+ padding-top: 3rem;
+ position: relative;
+ bottom:0;
+ width: 100%;
+}
+
+p{
+ color: rgb(141, 138, 138);
+}
