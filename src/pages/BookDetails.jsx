@@ -1,6 +1,7 @@
 import React, { component } from "react";
-import { Link } from "react-router-dom";
 import "./BookDetails.css"
+
+
 
 class BookDetails extends React.Component {
 
@@ -14,11 +15,11 @@ class BookDetails extends React.Component {
   }
 
   componentDidMount() {
-    var selectedDate = this.props.date
-    var selectedList = this.props.listName
-    if (selectedDate == null || selectedDate.length == 0)
-      return
-    fetch(`https://api.nytimes.com/svc/books/v3/lists/${selectedDate}/${selectedList}.json?api-key=mQCbMMASxFwRUu3QdfTfpCAG5pUVXUFx`, {
+
+    const { match: { params } } = this.props;
+    
+      
+    fetch(`https://api.nytimes.com/svc/books/v3/lists/${params.date}/${params.listname}.json?api-key=mQCbMMASxFwRUu3QdfTfpCAG5pUVXUFx`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -43,19 +44,27 @@ class BookDetails extends React.Component {
   render() {
     const { error, isLoaded, list } = this.state;
 
-    // const { data1 } = this.props.location;
     return (
       <div className="container">
+        {/*Looping*/}
         {list.map((book) => (
-          <div className="row">
-            <div className="col-sm mt-5">
-              <img src={book.book_image} alt="bkCoverPage"></img>
+
+          //add border to the details table
+          <div className="row border border-info rounded mt-5">
+            <div className="col-sm mt-5 " align="center">
+
+              {/*Show book coverpage*/}
+              <img src={book.book_image} alt="bkCoverPage" width="90%" height="90%"></img>
             </div>
 
             <div className="col-sm">
-
               <table class="table ">
-                <th scope="col">Name Of the Book : {book.title}</th>
+
+                {/*Assign book details to the table*/}
+                <th scope="col"><h1 align="center">{book.title}</h1></th>
+                <tbody>
+                  <td>Author :<h4>{book.author}</h4></td>
+                </tbody>
                 <tbody>
                   <td>Rank : {book.rank}</td>
                 </tbody>
@@ -81,9 +90,6 @@ class BookDetails extends React.Component {
                   <td>Publisher : {book.publisher}</td>
                 </tbody>
                 <tbody>
-                  <td>Author : {book.author}</td>
-                </tbody>
-                <tbody>
                   <td>Contributor : {book.contributor}</td>
                 </tbody>
                 <tbody>
@@ -95,13 +101,13 @@ class BookDetails extends React.Component {
                 <tbody>
                   <td>Description : {book.description}</td>
                 </tbody>
-
-                <a href={book.amazon_product_url}>
-                  <button type="button" class="btn btn-info" onClick={book.amazon_product_url}>BOOK NOW</button>
-                </a>
               </table>
-            </div>
 
+              {/*user can buy book using amazon web page*/}
+              <a href={book.amazon_product_url}>
+                <button type="button" class="btn btn-info mb-2" onClick={book.amazon_product_url}>BUY NOW</button>
+              </a>
+            </div>
           </div>
         ))}
       </div>

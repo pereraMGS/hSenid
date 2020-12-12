@@ -13,9 +13,6 @@ class BestSellerList extends React.Component {
     };
   }
 
-  onListNameClick = (listName, date) => {
-        this.props.onListNameChange(listName, date);
-  }
   componentDidMount() {
     fetch("https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=mQCbMMASxFwRUu3QdfTfpCAG5pUVXUFx", {
       method: "GET",
@@ -40,13 +37,15 @@ class BestSellerList extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, lists } = this.state;
+    const {lists } = this.state;
     return (
       <div>
         <h2 className="m-5" align="center">Best Beller List</h2>
         <table class="table table-hover">
           <thead>
             <tr>
+
+              {/*Column Names*/}
               <th >List Name</th>
               <th >Display Name</th>
               <th>List Name Encoded</th>
@@ -58,8 +57,12 @@ class BestSellerList extends React.Component {
           </thead>
 
           <tbody>
+
+            {/*Looping*/}
             {lists.map((category) => (
+
               <tr>
+                {/*Assign data to the table*/}
                 <td>{category.list_name}</td>
                 <td>{category.display_name}</td>
                 <td>{category.list_name_encoded}</td>
@@ -67,16 +70,16 @@ class BestSellerList extends React.Component {
                 <td>{category.newest_published_date}</td>
                 <td>{category.updated}</td>
                 <td>
-                  <Link to="/bookDetails"> <button type="button" class="btn btn-info" width="100px" onClick={() => this.onListNameClick(category.list_name, category.oldest_published_date)}>See More</button></Link>
+
+                  {/*See More button link to the BookDetails Page*/}
+                  <Link to={`/bookDetails/${category.list_name}/${category.oldest_published_date}`}> <button type="button" class="btn btn-info" width="100px" >See More</button></Link>
+
                 </td>
               </tr>
             ))}
 
-
           </tbody>
         </table>
-
-
 
       </div>
     )
